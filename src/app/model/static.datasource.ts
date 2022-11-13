@@ -7,7 +7,10 @@ export class StaticDataSource {
 
   constructor() {
     this.data = new Array<Product>(
-      new Product(1, 'kayak', 'watersports', 275),
+      new Product(1, 'kayak', 'watersports', 275, {
+        supplier: 'acme',
+        keywords: 'boat,small',
+      }),
       new Product(2, 'lifejacket', 'watersports', 48.95),
       new Product(3, 'soccer ball', 'soccer', 19.5),
       new Product(4, 'corner flags', 'soccer', 39.45),
