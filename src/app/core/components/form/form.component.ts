@@ -4,7 +4,16 @@ import { Model } from '../../../model/repository.model';
 import { MODES, SharedState, StateUpdate } from '../../sharedState.service';
 import { MessageService } from '../../../messages/message.service';
 import { Message } from 'src/app/messages/message.model';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FilteredFormArray } from '../../filteredFormArray';
+
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
+import { LimitValidator } from 'src/app/validation/limit';
 
 @Component({
   selector: 'app-form',
@@ -14,6 +23,9 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 export class FormComponent implements OnInit {
   product: Product = new Product();
   editing: boolean = false;
+
+  //usamos nuestro customizado FilteredFormArray en vez de FormArray
+  keywordGroup = new FilteredFormArray([this.createKeywordFormControl()]);
 
   productForm: FormGroup = new FormGroup({
     name: new FormControl('', {
@@ -28,11 +40,15 @@ export class FormComponent implements OnInit {
       validators: Validators.required,
     }),
     price: new FormControl('', {
-      validators: [Validators.required, Validators.pattern('^[0-9.]+$')],
+      validators: [
+        Validators.required,
+        Validators.pattern('^[0-9.]+$'),
+        LimitValidator.Limit(300),
+      ],
     }),
     details: new FormGroup({
       supplier: new FormControl('', { validators: Validators.required }),
-      keywords: new FormControl('', { validators: Validators.required }),
+      keywords: this.keywordGroup,
     }),
   });
 
@@ -65,8 +81,23 @@ export class FormComponent implements OnInit {
     */
   }
 
+  createKeywordFormControl(): FormControl {
+    return new FormControl('', {
+      validators: Validators.pattern('^[A-Za-z ]+$'),
+    });
+  }
+
+  addKeywordControl() {
+    this.keywordGroup.push(this.createKeywordFormControl());
+  }
+
+  removeKeywordControl(index: number) {
+    this.keywordGroup.removeAt(index);
+  }
+
   handleStateChange(newState: StateUpdate) {
     this.editing = newState.mode == MODES.EDIT;
+    this.keywordGroup.clear();
     if (this.editing && newState.id) {
       Object.assign(
         this.product,
@@ -75,6 +106,9 @@ export class FormComponent implements OnInit {
       this.messageService.reportMessage(
         new Message(`Editing ${this.product.name}`)
       );
+      this.product.details?.keywords?.forEach((val) => {
+        this.keywordGroup.push(this.createKeywordFormControl());
+      });
       //this.nameField.setValue(this.product.name);
       //this.categoryField.setValue(this.product.category);
     } else {
@@ -82,6 +116,9 @@ export class FormComponent implements OnInit {
       this.messageService.reportMessage(new Message('Creating new product'));
       //this.nameField.setValue('');
       //this.categoryField.setValue('');
+    }
+    if (this.keywordGroup.length == 0) {
+      this.keywordGroup.push(this.createKeywordFormControl());
     }
     this.productForm.reset(this.product);
   }
@@ -91,11 +128,18 @@ export class FormComponent implements OnInit {
       Object.assign(this.product, this.productForm.value);
       this.model.saveProduct(this.product);
       this.product = new Product();
+
+      this.keywordGroup.clear();
+      this.keywordGroup.push(this.createKeywordFormControl());
+
       this.productForm.reset();
     }
   }
 
   resetForm() {
+    this.keywordGroup.clear();
+    this.keywordGroup.push(this.createKeywordFormControl());
+
     this.editing = true;
     this.product = new Product();
     this.productForm.reset();

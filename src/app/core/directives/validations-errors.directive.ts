@@ -29,6 +29,7 @@ export class ValidationsErrorsDirective {
             this.container.clear();
           }
           if (control && control.dirty && control.invalid && control.errors) {
+            console.log(control.errors);
             formatter
               .formatMessages(control.errors, this.label ?? this.name)
               .forEach((err) => {

@@ -27,6 +27,11 @@ export class ValidationFormatPipe implements PipeTransform {
         case 'pattern':
           messages.push(`the name ${name} contains illegal characters`);
           break;
+        case 'limit':
+          messages.push(
+            `the ${name} must be less than ${errors['limit'].limit}`
+          );
+          break;
       }
     }
     return messages;
