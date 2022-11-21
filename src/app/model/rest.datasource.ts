@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { Product } from './product.model';
 
 export const REST_URL = new InjectionToken('rest_url');
@@ -47,6 +47,12 @@ export class RestDataSource {
     myHeaders = myHeaders.set('Access-Key', '<secret>');
     myHeaders = myHeaders.set('Applition-Names', ['exampleApp', 'proAngular']);
 
-    return this.http.request<T>(verb, url, { body: body, headers: myHeaders });
+    return this.http
+      .request<T>(verb, url, { body: body, headers: myHeaders })
+      .pipe(
+        catchError((error: Response) => {
+          throw `Network error: ${error.statusText} (${error.status})`;
+        })
+      );
   }
 }
