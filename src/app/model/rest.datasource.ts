@@ -51,6 +51,7 @@ export class RestDataSource {
       .request<T>(verb, url, { body: body, headers: myHeaders })
       .pipe(
         catchError((error: Response) => {
+          console.log('CATCHERROR');
           throw `Network error: ${error.statusText} (${error.status})`;
         })
       );

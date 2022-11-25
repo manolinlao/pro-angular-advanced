@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/model/product.model';
 import { Model } from '../../../model/repository.model';
-import { MODES, SharedState } from '../../sharedState.service';
 
 @Component({
   selector: 'app-table',
@@ -9,7 +8,7 @@ import { MODES, SharedState } from '../../sharedState.service';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-  constructor(private model: Model, private state: SharedState) {}
+  constructor(private model: Model) {}
 
   ngOnInit(): void {}
 
@@ -25,13 +24,5 @@ export class TableComponent implements OnInit {
     if (key != undefined) {
       this.model.deleteProduct(key);
     }
-  }
-
-  editProduct(key?: number) {
-    this.state.update(MODES.EDIT, key);
-  }
-
-  createProduct() {
-    this.state.update(MODES.CREATE);
   }
 }

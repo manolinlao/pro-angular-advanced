@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedState } from './sharedState.service';
 import { ModelModule } from '../model/model.module';
 import { ValidationFormatPipe } from './validation-format.pipe';
 import { ValidationsErrorsDirective } from './directives/validations-errors.directive';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,13 @@ import { ValidationsErrorsDirective } from './directives/validations-errors.dire
     ValidationFormatPipe,
     ValidationsErrorsDirective,
   ],
-  imports: [CommonModule, FormsModule, ModelModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ModelModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
   exports: [TableComponent, FormComponent],
-  providers: [SharedState],
 })
 export class CoreModule {}
