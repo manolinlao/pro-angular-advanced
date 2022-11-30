@@ -7,6 +7,9 @@ import { ModelModule } from '../model/model.module';
 import { ValidationFormatPipe } from './validation-format.pipe';
 import { ValidationsErrorsDirective } from './directives/validations-errors.directive';
 import { RouterModule } from '@angular/router';
+import { ProductCountComponent } from './components/product-count/product-count.component';
+import { CategoryCountComponent } from './components/category-count/category-count.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +17,9 @@ import { RouterModule } from '@angular/router';
     FormComponent,
     ValidationFormatPipe,
     ValidationsErrorsDirective,
+    ProductCountComponent,
+    CategoryCountComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,12 @@
+<div *ngIf="editing" class="p-2">
+  <button class="btn btn-secondary m-1" [routerLink]="['/form','edit',model.getPreviousProductId(product.id) |async]">
+    Previous
+  </button>
+  <button class="btn btn-secondary m-1" [routerLink]="['/form','edit',model.getNextProductId(product.id) |async]">
+    Next
+  </button>
+</div>
+
 <form [formGroup]="productForm" #form="ngForm" (ngSubmit)="submitForm()" (reset)="resetForm()">
   <div class="form-group">
     <label>Name</label>
