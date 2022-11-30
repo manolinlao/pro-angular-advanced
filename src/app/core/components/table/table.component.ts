@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/model/product.model';
 import { Model } from '../../../model/repository.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -8,7 +9,13 @@ import { Model } from '../../../model/repository.model';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-  constructor(private model: Model) {}
+  category: string | null = null;
+
+  constructor(private model: Model, activeRoute: ActivatedRoute) {
+    activeRoute.params.subscribe((params) => {
+      this.category = params['category'] || null;
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -17,7 +24,18 @@ export class TableComponent implements OnInit {
   }
 
   getProducts(): Product[] {
-    return this.model.getProducts();
+    return this.model
+      .getProducts()
+      .filter((p) => this.category == null || p.category == this.category);
+  }
+
+  get categories(): string[] {
+    return this.model
+      .getProducts()
+      .map((p) => p.category)
+      .filter(
+        (c, index, array) => c != undefined && array.indexOf(c) == index
+      ) as string[];
   }
 
   deleteProduct(key?: number) {
