@@ -28,6 +28,7 @@ export class CategoryCountComponent implements OnInit {
 
   ngDoCheck() {
     if (this.differ?.diff(this.model.getProducts()) != null) {
+      console.log('llama a getProducts dessde categoryCount');
       this.count = this.model
         .getProducts()
         .map((p) => p.category)

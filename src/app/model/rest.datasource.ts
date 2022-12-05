@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, delay } from 'rxjs';
 import { Product } from './product.model';
 
 export const REST_URL = new InjectionToken('rest_url');
@@ -16,7 +16,8 @@ export class RestDataSource {
 
   getData(): Observable<Product[]> {
     //return this.http.get<Product[]>(this.url);
-    return this.sendRequest<Product[]>('GET', this.url);
+    console.log('rest datasource getData');
+    return this.sendRequest<Product[]>('GET', this.url).pipe(delay(3000));
   }
 
   saveProduct(product: Product): Observable<Product> {

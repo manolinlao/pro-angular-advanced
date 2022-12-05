@@ -37,12 +37,14 @@ export class ProductCountComponent implements OnInit {
   }
 
   ngDoCheck() {
+    return; //MLAO quita return;
     if (this.differ?.diff(this.model.getProducts()) != null) {
       this.updateCount();
     }
   }
 
   private updateCount() {
+    console.log('llama a getProducts dessde productCount');
     this.count = this.model
       .getProducts()
       .filter(

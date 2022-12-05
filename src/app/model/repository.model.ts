@@ -14,18 +14,28 @@ export class Model {
     this.products = new Array<Product>();
     this.replaySubject = new ReplaySubject<Product[]>(1);
 
+    console.log('repository constructor');
+
     this.dataSource.getData().subscribe((data) => {
+      console.log('repository llega data');
       this.products = data;
       this.replaySubject.next(data);
       this.replaySubject.complete();
     });
   }
 
+  //Esto se va ejecutando y no entiendo por qué!!!!!
   getProducts(): Product[] {
+    console.log(
+      'repository getProducts QUIEN ME LLAMA??????',
+      this.products.length
+    );
     return this.products;
   }
 
+  //Esto sólo se ejecuta cuando se llama, ok!!!
   getProduct(id: number): Product | undefined {
+    console.log('repository getProduct', this.products.length);
     return this.products.find((p) => this.locator(p, id));
   }
 

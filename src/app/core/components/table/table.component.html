@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-auto">
@@ -5,9 +6,11 @@
         <button class="btn btn-secondary" routerLink="/table" routerLinkActive="bg-primary" [routerLinkActiveOptions]="{exact:true}">
           All
         </button>
+        
         <button *ngFor="let category of categories" class="btn btn-secondary" [routerLink]="['/table',category]" routerLinkActive="bg-primary">
           {{category}}
         </button>
+      
       </div>
     </div>
     <div class="col">
@@ -25,6 +28,9 @@
         <router-outlet></router-outlet>
       </div>
 
+    
+      
+
       <table class="table table-sm table-bordered table-striped">
         <thead>
           <tr>
@@ -32,7 +38,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of getProducts()">
+         
+          <tr *ngFor="let item of getProducts()">          
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>
             <td>{{item.category}}</td>
@@ -52,6 +59,7 @@
               </button>
             </td>
           </tr>
+          
         </tbody>
       </table>
     </div>
@@ -68,3 +76,4 @@
     Generate Routing Error
   </button>
 </div>
+

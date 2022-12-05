@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Product } from 'src/app/model/product.model';
 import { Model } from '../../../model/repository.model';
 import { ActivatedRoute } from '@angular/router';
@@ -8,28 +8,49 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   category: string | null = null;
 
+  // puede ser que si algo en model o activeRoute cambia, me llegue el docheck??? y se repinte el html???
   constructor(private model: Model, activeRoute: ActivatedRoute) {
     activeRoute.params.subscribe((params) => {
       this.category = params['category'] || null;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('table onchanges');
+  }
+
+  ngDoCheck() {
+    console.log('table ngDoCheck');
+  }
+
+  ngOnInit(): void {
+    console.log('table init');
+  }
+
+  ngAfterContentInit() {
+    console.log('table aftercontentinit');
+  }
+
+  pintaTraza() {
+    console.log('pinto traza');
+  }
 
   getProduct(key: number): Product | undefined {
     return this.model.getProduct(key);
   }
 
   getProducts(): Product[] {
+    console.log('table getProducts');
     return this.model
       .getProducts()
       .filter((p) => this.category == null || p.category == this.category);
   }
 
   get categories(): string[] {
+    console.log('table get categories');
     return this.model
       .getProducts()
       .map((p) => p.category)
