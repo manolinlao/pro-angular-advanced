@@ -37,7 +37,6 @@ export class ProductCountComponent implements OnInit {
   }
 
   ngDoCheck() {
-    return; //MLAO quita return;
     if (this.differ?.diff(this.model.getProducts()) != null) {
       this.updateCount();
     }

@@ -4,11 +4,18 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
 import { TableComponent } from './core/components/table/table.component';
 import { ProductCountComponent } from './core/components/product-count/product-count.component';
 import { CategoryCountComponent } from './core/components/category-count/category-count.component';
+import { ModelResolver } from './model/model.resolver';
 
 const childRoutes: Routes = [
-  { path: 'products', component: ProductCountComponent },
-  { path: 'categories', component: CategoryCountComponent },
-  { path: '', component: ProductCountComponent },
+  {
+    path: '',
+    children: [
+      { path: 'products', component: ProductCountComponent },
+      { path: 'categories', component: CategoryCountComponent },
+      { path: '', component: ProductCountComponent },
+    ],
+    resolve: { model: ModelResolver },
+  },
 ];
 
 const routes: Routes = [
