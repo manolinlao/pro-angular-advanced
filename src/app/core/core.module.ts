@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ProductCountComponent } from './components/product-count/product-count.component';
 import { CategoryCountComponent } from './components/category-count/category-count.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UnsavedGuard } from './unsaved.guard';
 
 @NgModule({
   declarations: [
@@ -29,5 +30,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     RouterModule,
   ],
   exports: [TableComponent, FormComponent],
+  providers: [UnsavedGuard],
 })
 export class CoreModule {}

@@ -90,12 +90,16 @@ export class FormComponent {
     }
   }
 
-  resetForm() {
-    this.keywordGroup.clear();
-    this.keywordGroup.push(this.createKeywordFormControl());
+  // resetForm() {
+  //  this.keywordGroup.clear();
+  //  this.keywordGroup.push(this.createKeywordFormControl());
 
-    this.editing = true;
-    this.product = new Product();
-    this.productForm.reset();
+  //  this.editing = true;
+  //  this.product = new Product();
+  //  this.productForm.reset();
+  // }
+
+  unsavedChanges(): boolean {
+    return this.productForm.dirty;
   }
 }

@@ -5,10 +5,13 @@ import { TableComponent } from './core/components/table/table.component';
 import { ProductCountComponent } from './core/components/product-count/product-count.component';
 import { CategoryCountComponent } from './core/components/category-count/category-count.component';
 import { ModelResolver } from './model/model.resolver';
+import { TermsGuard } from './terms.guard';
+import { UnsavedGuard } from './core/unsaved.guard';
 
 const childRoutes: Routes = [
   {
     path: '',
+    canActivateChild: [TermsGuard],
     children: [
       { path: 'products', component: ProductCountComponent },
       { path: 'categories', component: CategoryCountComponent },
@@ -19,8 +22,18 @@ const childRoutes: Routes = [
 ];
 
 const routes: Routes = [
-  { path: 'form/:mode/:id', component: FormComponent },
-  { path: 'form/:mode', component: FormComponent },
+  {
+    path: 'form/:mode/:id',
+    component: FormComponent,
+    resolve: { model: ModelResolver },
+    canDeactivate: [UnsavedGuard],
+  },
+  {
+    path: 'form/:mode',
+    component: FormComponent,
+    resolve: { model: ModelResolver },
+    canActivate: [TermsGuard],
+  },
   { path: 'does', redirectTo: '/form/create', pathMatch: 'prefix' },
   { path: 'table', component: TableComponent, children: childRoutes },
   { path: 'table/:category', component: TableComponent, children: childRoutes },
