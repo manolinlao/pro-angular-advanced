@@ -7,6 +7,7 @@ import { CategoryCountComponent } from './core/components/category-count/categor
 import { ModelResolver } from './model/model.resolver';
 import { TermsGuard } from './terms.guard';
 import { UnsavedGuard } from './core/unsaved.guard';
+import { LoadGuard } from './load.guard';
 
 const childRoutes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     path: 'ondemand',
     loadChildren: () =>
       import('./ondemand/ondemand.module').then((m) => m.OndemandModule),
+      canLoad: [LoadGuard]
   },
   {
     path: 'form/:mode/:id',
