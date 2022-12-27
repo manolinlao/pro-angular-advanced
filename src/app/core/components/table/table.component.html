@@ -29,6 +29,15 @@
       </div>
 
     
+      <div class="form-group bg-info text-white p-2">
+        <label>Category</label>
+        <select [(ngModel)]="highlightCategory" class="form-control">
+          <option value="">None</option>
+          <option *ngFor="let category of categories">
+            {{category}}
+          </option>
+        </select>
+      </div>
       
 
       <table class="table table-sm table-bordered table-striped">
@@ -39,7 +48,7 @@
         </thead>
         <tbody>
          
-          <tr *ngFor="let item of getProducts()">          
+          <tr *ngFor="let item of getProducts()" [@rowHighLight]="getRowState(item.category)">          
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>
             <td>{{item.category}}</td>

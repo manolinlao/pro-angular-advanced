@@ -2,11 +2,13 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Product } from 'src/app/model/product.model';
 import { Model } from '../../../model/repository.model';
 import { ActivatedRoute } from '@angular/router';
+import { HighlightTrigger } from '../../table.animations';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
+  animations: [HighlightTrigger],
 })
 export class TableComponent implements OnInit, OnChanges {
   category: string | null = null;
@@ -63,5 +65,15 @@ export class TableComponent implements OnInit, OnChanges {
     if (key != undefined) {
       this.model.deleteProduct(key);
     }
+  }
+
+  // Para las animations
+  highlightCategory: string = '';
+  getRowState(category: string | undefined): string {
+    return this.highlightCategory == ''
+      ? ''
+      : this.highlightCategory == category
+      ? 'selected'
+      : 'notSelected';
   }
 }
